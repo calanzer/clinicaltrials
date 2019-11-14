@@ -12,7 +12,8 @@ const functions = require('firebase-functions');
  exports.query = functions.https.onRequest((req, res) => {
     const admin = require('firebase-admin');
     const functions = require('firebase-functions');
-  
+    const arrayOfResults = new Array()
+
     admin.initializeApp(functions.config().firebase);
     let db = admin.firestore()
     let result
@@ -24,12 +25,11 @@ const functions = require('firebase-functions');
                 return;
             }
             snapshot.forEach(doc => {
-                result = doc.id
-                details = doc.data().brief_title
-
+                arrayOfResults.push(doc.data().brief_title)
+              
             })
-            console.log(details)
-            res.status(200).send(details);
+            //console.log(arrayOfResults)
+            res.status(200).send(arrayOfResults);
         })
         .catch(err => {
             console.log('Error getting documents', err);
