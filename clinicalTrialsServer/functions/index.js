@@ -17,8 +17,19 @@ const functions = require('firebase-functions');
     let db = admin.firestore()
     
     var database = db.collection("All Studies")
-    var query = database.where("overall_status", "==", "Completed");
-    
+    var query = database.where("overall_status", "==", "Completed").get()
+        .then(snapshot => {
+            if (snapshot.empty) {
+                console.log('No matching documents');
+                return;
+            }
+            snapshot.forEach(doc => {
+                console.log(doc.id, '=>', doc.data());
+            })
+        })
+        .catch(err => {
+            console.log('Error getting documents', err);
+        });
     
     res.status(200).send(query);
   });
