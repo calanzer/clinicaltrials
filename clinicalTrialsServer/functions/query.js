@@ -7,7 +7,7 @@
 
 
 
-exports.helloWorld = (req, res) => {
+exports.query = (req, res) => {
     const admin = require('firebase-admin');
     const functions = require('firebase-functions');
   
