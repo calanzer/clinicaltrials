@@ -15,7 +15,7 @@ const cors = require('cors')({ origin: true})
     const functions = require('firebase-functions');
     const arrayOfResults = new Array()
     //const firebaseID = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    if (!firebase.apps.length) {admin.initializeApp(functions.config().firebase,firebaseID)};
+    if (!firebase.apps.length) {admin.initializeApp(functions.config().firebase)};
     let db = admin.firestore()
     let result
     var database = db.collection("All Studies")
