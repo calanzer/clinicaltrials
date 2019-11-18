@@ -10,18 +10,20 @@ const request = require('request')
 
 function getData() {
   const data = "data"
-  axios.defaults.headers.get['Content-Type'] ='application/x-www-form-urlencoded';
 
-  axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ')
-    .then(res => {
+  axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ', {
+    headers:{
+      "Access-Control-Allow-Origin":"*"
+    },
+  }).then(res => {
       data = res.data;
       console.log(data)
       return <h1>{data}</h1>
     })
-  
+  }
  
 
-}
+
 class clinicalSearch extends React.Component {
   render () {
   return (
@@ -33,7 +35,7 @@ class clinicalSearch extends React.Component {
         </div>
           <InputBase placeholder="Search"/>
       </div>
-          <Button color="primary" onclick={getData}>
+          <Button color="primary" onClick={getData}>
             {getData()}
           </Button>
   </div>
