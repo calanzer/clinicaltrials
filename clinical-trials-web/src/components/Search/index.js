@@ -8,23 +8,35 @@ import axios from 'axios';
 
 const request = require('request')
 
-function getData() {
-  const data = "data"
 
-  axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ', {
-    headers:{
-      "Access-Control-Allow-Origin":"*"
-    },
-  }).then(res => {
-      data = res.data;
-      console.log(data)
-      return <h1>{data}</h1>
-    })
-  }
  
 
 
 class clinicalSearch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      results: "No Results"
+    }
+    this.getData = this.getData.bind(this);
+  }
+
+  getData() {
+    var data = "data"
+  
+    axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ', {
+      headers:{
+        "Access-Control-Allow-Origin":"*"
+      },
+    }).then(res => {
+        data = res.data[0];
+        console.log(data)
+        this.setState({
+          results: data
+        })
+      })
+    }
+
   render () {
   return (
   <div>
@@ -35,10 +47,12 @@ class clinicalSearch extends React.Component {
         </div>
           <InputBase placeholder="Search"/>
       </div>
-          <Button color="primary" onClick={getData}>
-            {getData()}
+          <Button color="primary" onClick={this.getData.bind(this)}>
+            search
           </Button>
-  </div>
+          <div>{this.state.results}</div>
+      </div>
+     
   )}
 }
 
