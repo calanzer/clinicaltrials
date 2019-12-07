@@ -34,6 +34,9 @@ class clinicalSearch extends React.Component {
   getData(searchTermOne) {
     var data = "data"
     axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ', {
+      params:{
+        searchTermOne:searchTermOne
+      },
       headers:{
         "Access-Control-Allow-Origin":"*"
       },

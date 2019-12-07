@@ -19,7 +19,7 @@ const cors = require('cors')({ origin: true})
     let db = admin.firestore()
     let result
     var database = db.collection("All Studies")
-    var querySearchTermOne = req.data
+    var querySearchTermOne = req.parameter('searchTermOne')
     var query = database.where("overall_status", "==", querySearchTermOne).get()
         .then(snapshot => {
             if (snapshot.empty) {
@@ -28,7 +28,6 @@ const cors = require('cors')({ origin: true})
             }
             snapshot.forEach(doc => {
                 arrayOfResults.push(doc.data().brief_title)
-              
             })
             //console.log(arrayOfResults)
             res.set('Access-Control-Allow-Origin', "*")
