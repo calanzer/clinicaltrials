@@ -5,14 +5,24 @@ import InputBase from '@material-ui/core/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+import Icon from '@material-ui/core/Icon';
 
 const request = require('request')
+const mainDiv = {
+  margin: 'auto',
+  width: '50%',
+  padding: '40px',
+  border: '1px solid blue'
+};
 
-
- 
-
+const mainTitle = {
+  'text-align': 'center'
+}
 
 class clinicalSearch extends React.Component {
+ 
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,9 +31,8 @@ class clinicalSearch extends React.Component {
     this.getData = this.getData.bind(this);
   }
 
-  getData() {
+  getData(searchTermOne) {
     var data = "data"
-  
     axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ', {
       headers:{
         "Access-Control-Allow-Origin":"*"
@@ -40,19 +49,24 @@ class clinicalSearch extends React.Component {
   render () {
   return (
   <div>
-    <h1>LandingPage</h1>
-      <div>
-        <div>
-          <SearchIcon />
-        </div>
-          <InputBase placeholder="Search"/>
-      </div>
-          <Button color="primary" onClick={this.getData.bind(this)}>
-            search
+    <h1 style={mainTitle}>Find Clinical Trials</h1>
+        <div style={mainDiv}>
+       
+          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.getData.bind(this)}
+            endIcon={<Icon>search</Icon>}
+          >
+            Search
           </Button>
-          <div>{this.state.results}</div>
-      </div>
-     
+          {this.state.results}
+        </div>
+        <div>
+        
+        </div>
+    </div>
   )}
 }
 

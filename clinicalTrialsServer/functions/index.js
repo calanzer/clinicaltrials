@@ -19,7 +19,8 @@ const cors = require('cors')({ origin: true})
     let db = admin.firestore()
     let result
     var database = db.collection("All Studies")
-    var query = database.where("overall_status", "==", "Completed").get()
+    var querySearchTermOne = req.data
+    var query = database.where("overall_status", "==", querySearchTermOne).get()
         .then(snapshot => {
             if (snapshot.empty) {
                 console.log('No matching documents');
