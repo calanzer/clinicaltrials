@@ -19,7 +19,7 @@ const cors = require('cors')({ origin: true})
     let db = admin.firestore()
     let result
     var database = db.collection("All Studies")
-    var querySearchTermOne = req.parameter('searchTermOne')
+    var querySearchTermOne = req.param('searchTermOne')
     var query = database.where("overall_status", "==", querySearchTermOne).get()
         .then(snapshot => {
             if (snapshot.empty) {
