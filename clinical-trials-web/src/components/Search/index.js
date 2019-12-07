@@ -59,7 +59,7 @@ class clinicalSearch extends React.Component {
           <Button
             variant="contained"
             color="primary"
-            onClick={this.getData.bind(this)}
+            onClick={this.getData("Completed").bind(this)}
             endIcon={<Icon>search</Icon>}
           >
             Search

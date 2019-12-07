@@ -4,7 +4,7 @@ const cors = require('cors')({ origin: true})
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
  exports.helloWorld = functions.https.onRequest((request, response) => {
-    sympton = request.parameter(symptom)
+    let sympton = request.parameter(symptom)
 
     response.send("Hello from Firebase!");
  });
@@ -15,11 +15,12 @@ const cors = require('cors')({ origin: true})
     const functions = require('firebase-functions');
     const arrayOfResults = new Array()
     //const firebaseID = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    if (!admin.apps.length) {admin.initializeApp(functions.config().firebase)};
+    if (!admin.apps.length) {admin.initializeApp(functions.config().firebase)}
     let db = admin.firestore()
     let result
     var database = db.collection("All Studies")
-    var querySearchTermOne = req.param('searchTermOne')
+    var querySearchTermOne = req.query.searchTermOne
+    console.log(querySearchTermOne)
     var query = database.where("overall_status", "==", querySearchTermOne).get()
         .then(snapshot => {
             if (snapshot.empty) {
