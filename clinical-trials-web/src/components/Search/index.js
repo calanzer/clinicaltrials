@@ -20,26 +20,32 @@ const mainTitle = {
   'text-align': 'center'
 }
 
-class clinicalSearch extends React.Component {
- 
+let inputField = React.createRef();
 
+class clinicalSearch extends React.Component {
+  
   constructor(props) {
     super(props);
+    //this.input = React.createRef()
     this.state = {
-      results: "No Results"
+      results: "No Results",
+      input: "No input"
     }
     this.getData = this.getData.bind(this);
+    
   }
 
-  getData(searchTermOne) {
+
+  getData() {
     var data = "data"
+    console.log(this.state.input)
     axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ', {
-      params:{
-        searchTermOne:searchTermOne
-      },
       headers:{
         "Access-Control-Allow-Origin":"*"
       },
+      params:{
+        searchTermOne:this.state.input
+      }
     }).then(res => {
         data = res.data[0];
         console.log(data)
@@ -47,19 +53,18 @@ class clinicalSearch extends React.Component {
           results: data
         })
       })
-    }
+  }
 
   render () {
   return (
   <div>
     <h1 style={mainTitle}>Find Clinical Trials</h1>
         <div style={mainDiv}>
-       
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+          <TextField value={this.state.input} id="outlined-basic" label="Outlined" variant="outlined" onChange={e => this.setState({ input: e.target.value })}/>
           <Button
             variant="contained"
             color="primary"
-            onClick={this.getData("Completed").bind(this)}
+            onClick={this.getData.bind(this)}
             endIcon={<Icon>search</Icon>}
           >
             Search

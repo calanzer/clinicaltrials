@@ -19,12 +19,20 @@ const cors = require('cors')({ origin: true})
     let db = admin.firestore()
     let result
     var database = db.collection("All Studies")
-    var querySearchTermOne = req.query.searchTermOne
+    var querySearchTermOne = "No Input"
+    if(req.query.searchTermOne){
+    querySearchTermOne = req.query.searchTermOne
+    }
     console.log(querySearchTermOne)
     var query = database.where("overall_status", "==", querySearchTermOne).get()
         .then(snapshot => {
             if (snapshot.empty) {
                 console.log('No matching documents');
+                arrayOfResults.push("No Results Found")
+                res.set('Access-Control-Allow-Origin', "*")
+                res.set('Access-Control-Allow-Methods', 'GET, POST','OPTIONS')
+                res.status(404).send(arrayOfResults);
+            return
                 return;
             }
             snapshot.forEach(doc => {
@@ -32,7 +40,7 @@ const cors = require('cors')({ origin: true})
             })
             //console.log(arrayOfResults)
             res.set('Access-Control-Allow-Origin', "*")
-            res.set('Access-Control-Allow-Methods', 'GET, POST')
+            res.set('Access-Control-Allow-Methods', 'GET, POST','OPTIONS')
             res.status(200).send(arrayOfResults);
             return
         })
