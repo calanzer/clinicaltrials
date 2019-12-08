@@ -30,17 +30,18 @@ const cors = require('cors')({ origin: true})
                 console.log('No matching documents');
                 arrayOfResults.push("No Results Found")
                 res.set('Access-Control-Allow-Origin', "*")
-                res.set('Access-Control-Allow-Methods', 'GET, POST','OPTIONS')
+                res.set('Access-Control-Allow-Methods', "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+                res.set('Access-Control-Allow-Headers', "Origin, Content-Type")
                 res.status(404).send(arrayOfResults);
             return
-                return;
             }
             snapshot.forEach(doc => {
                 arrayOfResults.push(doc.data().brief_title)
             })
             //console.log(arrayOfResults)
             res.set('Access-Control-Allow-Origin', "*")
-            res.set('Access-Control-Allow-Methods', 'GET, POST','OPTIONS')
+            res.set('Access-Control-Allow-Methods', "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+            res.set('Access-Control-Allow-Headers', "Origin, Content-Type")
             res.status(200).send(arrayOfResults);
             return
         })

@@ -41,7 +41,9 @@ class clinicalSearch extends React.Component {
     console.log(this.state.input)
     axios.get('https://us-central1-find-clinical-trials.cloudfunctions.net/query1 ', {
       headers:{
-        "Access-Control-Allow-Origin":"*"
+        "Access-Control-Allow-Origin":"*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
       },
       params:{
         searchTermOne:this.state.input
