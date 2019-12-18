@@ -67,9 +67,6 @@ class clinicalSearch extends React.Component {
           </Button>
           {this.state.results}
         </div>
-        <div>
-        
-        </div>
     </div>
   )}
 }
