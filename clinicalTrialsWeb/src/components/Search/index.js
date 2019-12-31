@@ -48,7 +48,6 @@ class clinicalSearch extends React.Component {
         this.setState({
           results: data
         })
-        console.log(this.state.results)
       })
       .catch((error) => {
         data = ["No Results"];

@@ -36,7 +36,7 @@ const cors = require('cors')({ origin: '*'})
             return
             }
             snapshot.forEach(doc => {
-                arrayOfResults.push(doc.data().brief_title)
+                arrayOfResults.push(doc.data())
             })
             //console.log(arrayOfResults)
             res.set('Access-Control-Allow-Origin', "*")
