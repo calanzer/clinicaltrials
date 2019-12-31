@@ -26,7 +26,7 @@ class clinicalSearch extends React.Component {
     super(props);
     //this.input = React.createRef()
     this.state = {
-      results: "No Results",
+      results: ["No Results"],
       input: "No input"
     }
     //this.getData = this.getData.bind(this);
@@ -43,12 +43,20 @@ class clinicalSearch extends React.Component {
         searchTermOne:this.state.input
       }
     }).then(res => {
-        data = res.data[0];
+        data = res.data;
         console.log(data)
         this.setState({
           results: data
         })
+        console.log(this.state.results)
       })
+      .catch((error) => {
+        data = ["No Results"];
+        console.log(data)
+        this.setState({
+          results: [data]
+        })
+      });
   }
 
   render () {
@@ -65,8 +73,10 @@ class clinicalSearch extends React.Component {
           >
             Search
           </Button>
-          {this.state.results}
         </div>
+        {this.state.results.map((data, index) => (
+        <p>Results:, {data}!<br></br></p>
+    ))}
     </div>
   )}
 }
