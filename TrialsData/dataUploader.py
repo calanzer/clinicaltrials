@@ -1,28 +1,38 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-import xml.etree.ElementTree as ET
+import os
+import json
 
-#Read XML File 
-root = ET.parse('NCT00000102.xml').getroot()
-#Set download date and print value
-overall_status = root.find('overall_status').text
-#Set brief title variable
-brief_title = root.find('brief_title').text
-#Set eligibility criteria text
-eligibility = root.find('eligibility/criteria/textblock').text
+path_to_jsonfolder = '/Users/christianlanzer/Downloads/AllAPIJSON/NCT0470xxxx'
+path_to_jsonfile = "NCT00000102.json"
+firestoreCredentialsFile = '/Users/christianlanzer/Documents/Coding_Projects/clinicaltrials/TrialsData/clinicaltrials-ae8f9-firebase-adminsdk-2wm4m-8b19b98626.json'
 
-# Import credentials from credentials file
-cred = credentials.Certificate('find-clinical-trials-d08ad69da614.json')
-#Initialize database connection with credentials
-firebase_admin.initialize_app(cred)
-#Initialize database object
-db = firestore.client()
-#Set data that will be sent to the database.
-data = {
-    u'brief_title': brief_title,
-    u'overall_status': overall_status,
-    u'eligibility': eligibility
-}
-#Insert data.
-db.collection(u'All Studies').document(u'Study').set(data)
+def uploadStudiesFolder():
+     db = firestoreSignIn(firestoreCredentialsFile)
+     for file in os.listdir(path_to_jsonfolder):
+          full_filename = "%s/%s" % (path_to_jsonfolder, file)
+          print("Insert data to database from file: " + full_filename)
+          with open(full_filename,'r') as fi:
+               root = json.loads(fi.read())
+               NCTId = root["FullStudy"]["Study"]["ProtocolSection"]["IdentificationModule"]["NCTId"]
+               #Insert data.
+               if NCTId != None:
+                     db.collection(u'trials').document(NCTId).set(root)
+
+def uploadIndividualStudy():
+     db = firestoreSignIn(firestoreCredentialsFile)
+     with open(path_to_jsonfile, 'r') as j:
+          root = json.loads(j.read())
+     NCTId = root["FullStudy"]["Study"]["ProtocolSection"]["IdentificationModule"]["NCTId"]
+     if NCTId != None:
+          db.collection(u'trials').document(NCTId).set(root)
+
+def firestoreSignIn(credentialsPath):
+     cred = credentials.Certificate(credentialsPath)
+     firebase_admin.initialize_app(cred)
+     db = firestore.client()
+     return db
+
+if __name__ == "__main__":
+    uploadStudiesFolder()
